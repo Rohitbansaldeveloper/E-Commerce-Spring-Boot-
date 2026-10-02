@@ -1,0 +1,100 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+  namespace: ecommerce
+spec:
+  selector:
+    app: payment-service
+  ports:
+  - port: 8082
+    targetPort: 8082
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+  namespace: ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+      - name: payment-service
+        image: __DOCKERHUB_NAMESPACE__/payment-service:__IMAGE_TAG__
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8082
+        env:
+        - name: INTERNAL_SERVICE_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: microservices-secrets
+              key: INTERNAL_SERVICE_TOKEN
+        - name: POSTGRES_HOST
+          value: postgres-payment
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: microservices-secrets
+              key: PAYMENTSERVICE_DB_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: microservices-secrets
+              key: PAYMENTSERVICE_DB_PASSWORD
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          valueFrom:
+            configMapKeyRef:
+              name: microservices-config
+              key: KAFKA_BOOTSTRAP_SERVERS
+        - name: STRIPE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: microservices-secrets
+              key: STRIPE_KEY
+        - name: STRIPE_WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: microservices-secrets
+              key: STRIPE_WEBHOOK_SECRET
+        - name: PAYMENT_CURRENCY
+          valueFrom:
+            configMapKeyRef:
+              name: microservices-config
+              key: PAYMENT_CURRENCY
+        - name: PAYMENT_SUCCESS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: microservices-config
+              key: PAYMENT_SUCCESS_URL
+        readinessProbe:
+          tcpSocket:
+            port: 8082
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 8082
+          initialDelaySeconds: 40
+          periodSeconds: 20
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  minReadySeconds: 5

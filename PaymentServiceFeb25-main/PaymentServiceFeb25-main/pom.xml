@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns0:project xmlns:ns0="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <ns0:modelVersion>4.0.0</ns0:modelVersion>
+    <ns0:parent>
+        <ns0:groupId>org.springframework.boot</ns0:groupId>
+        <ns0:artifactId>spring-boot-starter-parent</ns0:artifactId>
+        <ns0:version>3.4.3</ns0:version>
+        <ns0:relativePath /> 
+    </ns0:parent>
+    <ns0:groupId>com.example</ns0:groupId>
+    <ns0:artifactId>PaymentServiceFeb25</ns0:artifactId>
+    <ns0:version>0.0.1-SNAPSHOT</ns0:version>
+    <ns0:name>PaymentServiceFeb25</ns0:name>
+    <ns0:description>PaymentServiceFeb25</ns0:description>
+    <ns0:url />
+    <ns0:licenses>
+        <ns0:license />
+    </ns0:licenses>
+    <ns0:developers>
+        <ns0:developer />
+    </ns0:developers>
+    <ns0:scm>
+        <ns0:connection />
+        <ns0:developerConnection />
+        <ns0:tag />
+        <ns0:url />
+    </ns0:scm>
+    <ns0:properties>
+        <ns0:java.version>17</ns0:java.version>
+    </ns0:properties>
+    <ns0:dependencies>
+        <ns0:dependency>
+            <ns0:groupId>org.springframework.boot</ns0:groupId>
+            <ns0:artifactId>spring-boot-starter-web</ns0:artifactId>
+        </ns0:dependency>
+
+        <ns0:dependency>
+            <ns0:groupId>org.springframework.boot</ns0:groupId>
+            <ns0:artifactId>spring-boot-devtools</ns0:artifactId>
+            <ns0:scope>runtime</ns0:scope>
+            <ns0:optional>true</ns0:optional>
+        </ns0:dependency>
+        <ns0:dependency>
+            <ns0:groupId>org.springframework.boot</ns0:groupId>
+            <ns0:artifactId>spring-boot-configuration-processor</ns0:artifactId>
+            <ns0:optional>true</ns0:optional>
+        </ns0:dependency>
+        <ns0:dependency>
+            <ns0:groupId>org.projectlombok</ns0:groupId>
+            <ns0:artifactId>lombok</ns0:artifactId>
+            <ns0:optional>true</ns0:optional>
+        </ns0:dependency>
+        <ns0:dependency>
+            <ns0:groupId>org.springframework.boot</ns0:groupId>
+            <ns0:artifactId>spring-boot-starter-test</ns0:artifactId>
+            <ns0:scope>test</ns0:scope>
+        </ns0:dependency>
+        
+        <ns0:dependency>
+            <ns0:groupId>com.stripe</ns0:groupId>
+            <ns0:artifactId>stripe-java</ns0:artifactId>
+            <ns0:version>28.4.0</ns0:version>
+        </ns0:dependency>
+        <ns0:dependency><ns0:groupId>org.springframework.kafka</ns0:groupId><ns0:artifactId>spring-kafka</ns0:artifactId></ns0:dependency>
+            <ns0:dependency><ns0:groupId>org.springframework.boot</ns0:groupId><ns0:artifactId>spring-boot-starter-data-jpa</ns0:artifactId></ns0:dependency>
+        <ns0:dependency><ns0:groupId>org.postgresql</ns0:groupId><ns0:artifactId>postgresql</ns0:artifactId></ns0:dependency>
+            <ns0:dependency><ns0:groupId>org.springframework.boot</ns0:groupId><ns0:artifactId>spring-boot-starter-validation</ns0:artifactId></ns0:dependency>
+            <ns0:dependency><ns0:groupId>org.springdoc</ns0:groupId><ns0:artifactId>springdoc-openapi-starter-webmvc-ui</ns0:artifactId><ns0:version>2.8.6</ns0:version></ns0:dependency>
+    </ns0:dependencies>
+
+    <ns0:build>
+        <ns0:plugins>
+            <ns0:plugin>
+                <ns0:groupId>org.apache.maven.plugins</ns0:groupId>
+                <ns0:artifactId>maven-compiler-plugin</ns0:artifactId>
+                <ns0:configuration>
+                    <ns0:annotationProcessorPaths>
+                        <ns0:path>
+                            <ns0:groupId>org.springframework.boot</ns0:groupId>
+                            <ns0:artifactId>spring-boot-configuration-processor</ns0:artifactId>
+                        </ns0:path>
+                        <ns0:path>
+                            <ns0:groupId>org.projectlombok</ns0:groupId>
+                            <ns0:artifactId>lombok</ns0:artifactId>
+                        </ns0:path>
+                    </ns0:annotationProcessorPaths>
+                </ns0:configuration>
+            </ns0:plugin>
+            <ns0:plugin>
+                <ns0:groupId>org.springframework.boot</ns0:groupId>
+                <ns0:artifactId>spring-boot-maven-plugin</ns0:artifactId>
+                <ns0:configuration>
+                    <ns0:excludes>
+                        <ns0:exclude>
+                            <ns0:groupId>org.projectlombok</ns0:groupId>
+                            <ns0:artifactId>lombok</ns0:artifactId>
+                        </ns0:exclude>
+                    </ns0:excludes>
+                </ns0:configuration>
+            </ns0:plugin>
+        </ns0:plugins>
+    </ns0:build>
+
+</ns0:project>

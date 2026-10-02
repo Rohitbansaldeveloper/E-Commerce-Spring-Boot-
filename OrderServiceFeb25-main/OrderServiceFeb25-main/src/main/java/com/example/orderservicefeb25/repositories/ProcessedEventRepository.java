@@ -1,0 +1,1 @@
+package com.example.orderservicefeb25.repositories; import com.example.orderservicefeb25.models.ProcessedEvent; import org.springframework.data.jpa.repository.JpaRepository; public interface ProcessedEventRepository extends JpaRepository<ProcessedEvent,Long>{boolean existsByEventId(String eventId);}

@@ -1,0 +1,2 @@
+package com.example.orderservicefeb25.models; import jakarta.persistence.*; import lombok.Getter; import lombok.Setter; import java.time.Instant;
+@Entity @Table(name="processed_events",uniqueConstraints=@UniqueConstraint(name="uk_processed_event",columnNames="event_id")) @Getter @Setter public class ProcessedEvent { @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id; @Column(name="event_id",nullable=false,length=100) private String eventId; @Column(nullable=false) private Instant processedAt; }

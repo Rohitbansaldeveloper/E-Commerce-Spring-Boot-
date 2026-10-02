@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  namespace: ecommerce
+spec:
+  selector:
+    app: user-service
+  ports:
+  - port: 7070
+    targetPort: 7070
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+      - name: user-service
+        image: __DOCKERHUB_NAMESPACE__/user-service:__IMAGE_TAG__
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 7070
+        env:
+        - name: INTERNAL_SERVICE_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: microservices-secrets
+              key: INTERNAL_SERVICE_TOKEN
+        - name: POSTGRES_HOST
+          value: postgres-user
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: microservices-secrets
+              key: USERSERVICE_DB_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: microservices-secrets
+              key: USERSERVICE_DB_PASSWORD
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          valueFrom:
+            configMapKeyRef:
+              name: microservices-config
+              key: KAFKA_BOOTSTRAP_SERVERS
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: microservices-config
+              key: REDIS_HOST
+        - name: REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: microservices-config
+              key: REDIS_PORT
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: microservices-secrets
+              key: JWT_SECRET
+        - name: JWT_ISSUER
+          valueFrom:
+            secretKeyRef:
+              name: microservices-secrets
+              key: JWT_ISSUER
+        - name: JWT_EXPIRATION_SECONDS
+          valueFrom:
+            secretKeyRef:
+              name: microservices-secrets
+              key: JWT_EXPIRATION_SECONDS
+        - name: ADMIN_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: microservices-secrets
+              key: ADMIN_EMAIL
+        readinessProbe:
+          tcpSocket:
+            port: 7070
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 7070
+          initialDelaySeconds: 40
+          periodSeconds: 20
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  minReadySeconds: 5

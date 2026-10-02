@@ -1,0 +1,1 @@
+package com.example.paymentservicefeb25.repositories; import com.example.paymentservicefeb25.models.ProcessedPaymentEvent; import org.springframework.data.jpa.repository.JpaRepository; public interface ProcessedPaymentEventRepository extends JpaRepository<ProcessedPaymentEvent,Long>{boolean existsByEventId(String eventId);}
